@@ -1,7 +1,11 @@
 package com.jim.springkafka.dispatch.service;
 
+import com.jim.springkafka.dispatch.message.OrderCreated;
+import com.jim.springkafka.dispatch.util.EventDateTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +20,8 @@ class DispatchServiceTest {
 
     @Test
     void process() {
-        dispatchService.process("payload");
+        OrderCreated testEvent = EventDateTest.buildOrderCreatedEvent(UUID.randomUUID(),
+                UUID.randomUUID().toString());
+        dispatchService.process(testEvent);
     }
 }

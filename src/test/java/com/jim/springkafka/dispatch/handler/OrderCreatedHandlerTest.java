@@ -1,8 +1,12 @@
 package com.jim.springkafka.dispatch.handler;
 
+import com.jim.springkafka.dispatch.message.OrderCreated;
 import com.jim.springkafka.dispatch.service.DispatchService;
+import com.jim.springkafka.dispatch.util.EventDateTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -22,8 +26,10 @@ class OrderCreatedHandlerTest {
 
     @Test
     void consumeMessage() {
-        orderCreatedHandler.consumeMessage("payload");
-        verify(dispatchService, times(1)).process("payload");
+        OrderCreated testEvent = EventDateTest.buildOrderCreatedEvent(UUID.randomUUID(),
+                UUID.randomUUID().toString());
+        orderCreatedHandler.consumeMessage(testEvent);
+        verify(dispatchService, times(1)).process(testEvent);
 
     }
 }

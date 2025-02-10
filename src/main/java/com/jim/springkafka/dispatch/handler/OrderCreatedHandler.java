@@ -1,5 +1,6 @@
 package com.jim.springkafka.dispatch.handler;
 
+import com.jim.springkafka.dispatch.message.OrderCreated;
 import com.jim.springkafka.dispatch.service.DispatchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class OrderCreatedHandler {
             topics = "order.created",
             groupId = "dispatch.order.created.consumer"
     )
-    public void consumeMessage(String payload){
+    public void consumeMessage(OrderCreated payload){
         log.info("Received message payload: {}", payload);
         dispatchService.process(payload);
     }
