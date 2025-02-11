@@ -4,7 +4,7 @@ import com.jim.springkafka.dispatch.message.OrderCreated;
 
 import java.util.UUID;
 
-public class EventDateTest {
+public class EventDataTest {
     public static OrderCreated buildOrderCreatedEvent(UUID orderId, String item) {
         return OrderCreated.builder()
                 .orderId(orderId)

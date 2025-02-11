@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ExecutionException;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +24,10 @@ public class OrderCreatedHandler {
     )
     public void consumeMessage(OrderCreated payload){
         log.info("Received message payload: {}", payload);
-        dispatchService.process(payload);
+        try {
+            dispatchService.process(payload);
+        } catch (Exception e) {
+            log.error("Error processing message: {}", e.getMessage());
+        }
     }
 }
