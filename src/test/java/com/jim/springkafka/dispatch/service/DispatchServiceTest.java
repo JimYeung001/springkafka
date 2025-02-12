@@ -40,11 +40,11 @@ class DispatchServiceTest {
     void process_throw_exception() throws Exception {
         OrderCreated testEvent = EventDataTest.buildOrderCreatedEvent(UUID.randomUUID(),
                 UUID.randomUUID().toString());
-        doThrow(new RuntimeException("Error")).when(kafkaTemplateMock).send(eq("order.dispatched"), any());
+        doThrow(new RuntimeException("Error")).when(kafkaTemplateMock).send(eq("dispatch.tracking"), any());
         Exception exception = assertThrows(RuntimeException.class, () -> {
             dispatchService.process(testEvent);
         });
-        verify(kafkaTemplateMock, times(1)).send(eq("order.dispatched"), any());
+        verify(kafkaTemplateMock, times(1)).send(eq("dispatch.tracking"), any());
         assertThat(exception.getMessage()).isEqualTo("Error");
     }
 }
