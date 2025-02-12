@@ -16,6 +16,7 @@ public class DispatchService {
     public void process(OrderCreated payload) throws ExecutionException, InterruptedException {
         OrderCreated orderCreated = OrderCreated.builder()
                 .orderId(payload.getOrderId())
+                .item(payload.getItem())
                 .build();
         kafkaTemplate.send(ORDER_DISPATCHED, orderCreated.getOrderId()).get();
     }

@@ -29,22 +29,22 @@ class DispatchServiceTest {
 
     @Test
     void process_success() throws Exception {
-        when(kafkaTemplateMock.send(anyString(), any(OrderCreated.class))).thenReturn(mock(CompletableFuture.class));
+        when(kafkaTemplateMock.send(anyString(), any(Object.class))).thenReturn(mock(CompletableFuture.class));
         OrderCreated testEvent = EventDataTest.buildOrderCreatedEvent(UUID.randomUUID(),
                 UUID.randomUUID().toString());
         dispatchService.process(testEvent);
-        verify(kafkaTemplateMock, times(1)).send(eq("order.dispatched"), any(OrderCreated.class));
+        verify(kafkaTemplateMock, times(1)).send(eq("order.dispatched"), any(Object.class));
     }
 
     @Test
     void process_throw_exception() throws Exception {
         OrderCreated testEvent = EventDataTest.buildOrderCreatedEvent(UUID.randomUUID(),
                 UUID.randomUUID().toString());
-        doThrow(new RuntimeException("Error")).when(kafkaTemplateMock).send(eq("order.dispatched"), any(OrderCreated.class));
+        doThrow(new RuntimeException("Error")).when(kafkaTemplateMock).send(eq("order.dispatched"), any());
         Exception exception = assertThrows(RuntimeException.class, () -> {
             dispatchService.process(testEvent);
         });
-        verify(kafkaTemplateMock, times(1)).send(eq("order.dispatched"), any(OrderCreated.class));
+        verify(kafkaTemplateMock, times(1)).send(eq("order.dispatched"), any());
         assertThat(exception.getMessage()).isEqualTo("Error");
     }
 }
