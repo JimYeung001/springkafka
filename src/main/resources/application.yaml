@@ -1,6 +1,14 @@
 spring:
   kafka:
     bootstrap-servers: "172.23.77.89:9092"
+    topic: "embedded-test-topic"
+    consumer:
+      group-id: "test-group-id"
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        max.poll.interval.ms: 300000
+        max.poll.records: 1000
 
 
 
